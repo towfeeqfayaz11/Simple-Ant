@@ -1,0 +1,14 @@
+node {
+    stage('checkout') {
+
+       git branch: 'master', credentialsId: 'git-cred', url: 'https://github.com/towfeeqfayaz11/Simple-Ant.git'
+    }
+    stage('Build and run java') {
+       withAnt(installation: 'ant9', jdk: 'java8') {
+           bat 'ant -f build.xml'    //bat is equivalent to sh or bash in linux
+       }
+    }
+    stage('Results') {
+        echo 'job completedn successfully'
+    }
+}
