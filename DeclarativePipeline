@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        ant "ant9"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+
+                git branch: 'master',credentialsId: 'git-cred',url: 'https://github.com/towfeeqfayaz11/Simple-Ant'
+
+                bat 'ant -f build.xml run'    // here run is the name of default target
+
+
+            }
+
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                    echo 'job is successful in Declarative Pipeline'
+                }
+            }
+        }
+    }
+}
